@@ -1,6 +1,8 @@
 require('dotenv').config();
+const { countPostbyUsers, averageNumofUsers } = require('./concepts/Aggregation');
 const { createusersTable, insertUser , fetchAllUsers, updateUser, deleteUser} = require("./concepts/basic-queries");
 const {getUserWhere, getUserOrderBy, getPagination} = require("./concepts/filtering-sorting");
+const { getUsersWithPosts, getAllUsersAndPosts } = require('./concepts/joins');
 const { createPostTable, insetNewPost } = require('./concepts/relationships');
 // test  basic 
 async function testBasicQueries() {
@@ -35,11 +37,31 @@ async  function  testRelationQuery() {
     }
 }
 
+async  function testJoinQueries() {
+    try {
+        await getUsersWithPosts();
+        await getAllUsersAndPosts();
+    } catch (error) {
+        console.error('Error in testJoinQueries', error);
+    }
+}
+
+async function testAggregationQueries() {
+    try {
+        await countPostbyUsers();
+        await averageNumofUsers()
+    } catch (error) {
+        console.error('Error in testAggregationQueries', error);
+    }
+}
+
 async function runAllqueries() {
     try {
         // await testBasicQueries();
-        await testFIlterQueries()
-        await testRelationQuery()
+        // await testFIlterQueries()
+        // await testRelationQuery()
+        // await testJoinQueries()
+        await testAggregationQueries()
     } catch (error) {
         console.error('Error in runAllqueries', error);
     }
